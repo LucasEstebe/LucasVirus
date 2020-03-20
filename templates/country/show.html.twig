@@ -3,24 +3,43 @@
 {% block title %}Country{% endblock %}
 
 {% block body %}
-    <h1>Country</h1>
+    <h1>Country Stats</h1>
 
     <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Contaminated</th>
+            <th>Healed</th>
+            <th>Zombified</th>
+            <th>Date</th>
+            <th>actions</th>
+        </tr>
+        </thead>
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ country.id }}</td>
+        {% for stat in stats %}
+            <tr class="table-{{ stat.healed > stat.zombified ? 'success' : 'danger' }}">
+                <td>{{ stat.id }}</td>
+                <td>{{ stat.contaminated }}</td>
+                <td>{{ stat.healed }}</td>
+                <td>{{ stat.zombified }}</td>
+                <td>{{ stat.statDate ? stat.statDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('stat_show', {'id': stat.id}) }}">show</a>
+                    <a href="{{ path('stat_edit', {'id': stat.id}) }}">edit</a>
+                </td>
             </tr>
+        {% else %}
             <tr>
-                <th>Name</th>
-                <td>{{ country.name }}</td>
+                <td colspan="6">no records found</td>
             </tr>
+        {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('country_index') }}">back to list</a>
+    <a class="btn btn-info" href="{{ path('country_index') }}">Back to country list</a>
 
-    <a href="{{ path('country_edit', {'id': country.id}) }}">edit</a>
+    <a class="btn btn-warning text-white" href="{{ path('country_edit', {'id': country.id}) }}">Edit Country</a>
 
     {{ include('country/_delete_form.html.twig') }}
 {% endblock %}

@@ -5,22 +5,29 @@
 {% block body %}
     <h1>Country index</h1>
 
-    <table class="table table-dark">
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Total Contaminated</th>
+                <th>Total Healed</th>
+                <th>Total Zombified</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for country in countries %}
-            <tr>
+        {% for country in countries|sort((a, b) => a.name <=> b.name) %}
+            <tr class="table-{{ country.healed > country.zombified ? 'success' : 'danger' }}">
                 <td>{{ country.id }}</td>
                 <td>{{ country.name }}</td>
+                <td>{{ country.contaminated }}</td>
+                <td>{{ country.healed }}</td>
+                <td>{{ country.zombified }}</td>
                 <td>
-                    <a class="text-white" href="{{ path('country_show', {'id': country.id}) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                    <a class="text-white" href="{{ path('country_edit', {'id': country.id}) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    <a href="{{ path('country_show', {'id': country.id}) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    <a href="{{ path('country_edit', {'id': country.id}) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    <a href="{{ path('country_delete', {'id': country.id}) }}"><i class="fa fa-trash" aria-hidden="true"></i></a>
                 </td>
             </tr>
         {% else %}

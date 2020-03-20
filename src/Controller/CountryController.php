@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Country;
-use App\Form\Country1Type;
+use App\Form\CountryType;
 use App\Repository\CountryRepository;
+use App\Repository\StatRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +32,7 @@ class CountryController extends AbstractController
     public function new(Request $request): Response
     {
         $country = new Country();
-        $form = $this->createForm(Country1Type::class, $country);
+        $form = $this->createForm(CountryType::class, $country);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,10 +52,11 @@ class CountryController extends AbstractController
     /**
      * @Route("/{id}", name="country_show", methods={"GET"})
      */
-    public function show(Country $country): Response
+    public function show(Country $country, StatRepository $statRepository): Response
     {
         return $this->render('country/show.html.twig', [
             'country' => $country,
+            'stats' => $statRepository->findBy(['country' => $country->getId()], ['stat_date' => "DESC"]),
         ]);
     }
 
@@ -63,7 +65,7 @@ class CountryController extends AbstractController
      */
     public function edit(Request $request, Country $country): Response
     {
-        $form = $this->createForm(Country1Type::class, $country);
+        $form = $this->createForm(CountryType::class, $country);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
