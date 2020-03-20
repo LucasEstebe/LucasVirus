@@ -3,7 +3,10 @@
 {% block title %}Country index{% endblock %}
 
 {% block body %}
-    <h1>Country index</h1>
+    {% set totalContaminated = 0 %}
+    {% set totalHealed = 0 %}
+    {% set totalZombified = 0 %}
+    <h1>Country details</h1>
 
     <table class="table">
         <thead>
@@ -18,6 +21,9 @@
         </thead>
         <tbody>
         {% for country in countries|sort((a, b) => a.name <=> b.name) %}
+            {% set totalContaminated = totalContaminated + country.contaminated %}
+            {% set totalHealed = totalHealed + country.healed %}
+            {% set totalZombified = totalZombified + country.zombified %}
             <tr class="table-{{ country.healed > country.zombified ? 'success' : 'danger' }}">
                 <td>{{ country.id }}</td>
                 <td>{{ country.name }}</td>
@@ -38,5 +44,26 @@
         </tbody>
     </table>
 
-    <a href="{{ path('country_new') }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Create new</a>
+
+    <h1>World Situation</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Total Contaminated</th>
+            <th>Total Healed</th>
+            <th>Total Zombified</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-{{ totalHealed > totalZombified ? 'success' : 'danger' }}">
+            <td>World</td>
+            <td>{{ totalContaminated }}</td>
+            <td>{{ totalHealed }}</td>
+            <td>{{ totalZombified }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('country_new') }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add new</a>
 {% endblock %}

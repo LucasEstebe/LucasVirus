@@ -9,12 +9,24 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../public/css/main.css">
-    {% block stylesheets %}{% endblock %}
+
+    {% block stylesheets %}<link rel="stylesheet" href="{{asset('../public/css/main.css')}}">{% endblock %}
 </head>
 <body>
+<style type="text/css" scoped>
+    body{
+        background-image: url("https://img-3.journaldesfemmes.fr/ccHMwalcIsmwrOGEb7BveI1iVmc=/1080x/smart/2870981928a3445887a9c08fd363a4ba/ccmcms-jdf/13162574.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    #content{
+        background-color: white;
+        padding: 40px 30px;
+        border-radius: 10px;
+    }
+</style>
 {% include '__partials/header.html.twig' %}
-<div class="container">
+<div class="container" id="content">
 {% block body %}{% endblock %}
 </div>
 {% block javascripts %}{% endblock %}
