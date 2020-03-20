@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AppController!{% endblock %}
+
+{% block body %}
+    <h1 class="my-5">Infected countries:</h1>
+    <table class="table table-dark">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Country</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for country in countries %}
+        <tr>
+            <th scope="row">{{ country.id }}</th>
+            <td>{{ country.name }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
